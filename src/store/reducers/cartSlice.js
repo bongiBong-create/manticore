@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { API_FIREBASE } from "../constants/const";
 
-const state = {
+const initialState = {
   cartProducts: [],
   productsQuantity: 0,
   totalPrice: 0,
@@ -9,7 +8,7 @@ const state = {
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: state,
+  initialState,
   reducers: {
     addItem(state, action) {
       const newItem = action.payload;
@@ -29,8 +28,8 @@ const cartSlice = createSlice({
         existingItem.totalPrice = existingItem.price * existingItem.amount;
       }
     },
-    removeItem(state, action) {
-      const id = action.payload.id;
+    removeItem(state, { payload }) {
+      const id = payload;
       const existingItem = state.cartProducts.find((item) => item.id === id);
       state.productsQuantity -= 1;
       state.totalPrice -= existingItem.price;
@@ -52,51 +51,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const sendCartData = (cart) => {
-  return async (dispatchAction) => {
-    const sendHttpRequest = async () => {
-      const response = await fetch(API_FIREBASE, {
-        method: "PUT",
-        body: JSON.stringify({
-          cartProducts: cart.cartProducts,
-          productsQuantity: cart.productsQuantity,
-          totalPrice: cart.totalPrice,
-        }),
-      });
-    };
+export const { addItem, removeItem } = cartSlice.actions;
 
-    try {
-      await sendHttpRequest();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
-
-export const getCartData = () => {
-  return async (dispatchAction) => {
-    const getHttpRequest = async () => {
-      const response = await fetch(API_FIREBASE);
-
-      const responseData = await response.json();
-      return responseData;
-    };
-
-    try {
-      const cart = await getHttpRequest();
-      dispatchAction(
-        cartSlice.actions.updateCart({
-          cartProducts: cart.cartProducts || [],
-          productsQuantity: cart.productsQuantity,
-          totalPrice: cart.totalPrice,
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
-
-export const cartActions = cartSlice.actions;
-
-export default cartSlice;
+export default cartSlice.reducer;

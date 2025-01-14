@@ -9,21 +9,21 @@
   padding: 10px;
 }
 
-.catalog__item--img {
+.catalog__item-img {
   align-self: center;
 }
 
-.catalog__item--img img {
+.catalog__item-img img {
   height: 300px;
 }
 
-.catalog__item--info {
+.catalog__item-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
-.catalog__item--name {
+.catalog__item-name {
   font-size: 12px;
 }

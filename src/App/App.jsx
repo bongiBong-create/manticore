@@ -1,21 +1,8 @@
-import { Route, Routes, Navigate } from "react-router-dom";
-import Header from "../components/Header";
-import Catalog from "../pages/Catalog";
-import Cart from "../pages/Cart";
-import Footer from "../components/Footer";
+import { RouterProvider } from "react-router-dom";
+import { router } from "../router";
 
 function App() {
-  return (
-    <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Navigate to="/catalog" />} />
-        <Route path="/catalog" element={<Catalog />} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
-      <Footer />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
